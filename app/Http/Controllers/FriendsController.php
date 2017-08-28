@@ -14,7 +14,14 @@ class FriendsController extends Controller
      */
     public function index()
     {
-        echo 'Čia bus visi įrašai';
+        //1. gauti iš DB friends
+        //2. grąžinti template sąraše
+        $data = Friend::get();
+        return view('friends.index', [
+         'friends' => $data
+        ]);
+
+
     }
 
     /**
@@ -44,7 +51,7 @@ class FriendsController extends Controller
       ]);
 
       Friend::create($request->all());
-      echo 'Įrašas suskurtas';
+      return redirect()->route('friends.index');
     }
 
     /**
@@ -66,7 +73,8 @@ class FriendsController extends Controller
      */
     public function edit($id)
     {
-        echo 'Čia koreguosim draugo info';
+        $friend = Friend::find($id);
+        return view('friends.edit')->with('friend', $friend);
     }
 
     /**
@@ -78,7 +86,19 @@ class FriendsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $this->validate($request, [
+        'name'=>'required|max:18',
+        'birthday'=>'required|date',
+        'phone'=>'required'
+      ]);
+        //Friend::get();
+        //Friend::find($id);
+        //Friend::create($data);
+        $friend = Friend::find($id);
+
+        $friend->update($request->all());
+      //atnaujinti friends įrašą
+      return redirect()->route('friends.index');
     }
 
     /**
@@ -89,6 +109,12 @@ class FriendsController extends Controller
      */
     public function destroy($id)
     {
-        echo 'Čia draugą pašalinsim';
+      //viską pašalina 1 būdas, geresnis, jeigu turime daugiau id, kas po :: yra statinis metodas
+      //  Friend::destroy($id);
+      $friend = Friend::find($id);
+      //2 būdas: paimti draugą iš DB, patikrinti ar jis egzistuoja, jei ne išmetam klaidą
+      $friend->delete();
+      return redirect()->route('friends.index');
+
     }
 }

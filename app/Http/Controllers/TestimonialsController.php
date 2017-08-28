@@ -51,9 +51,11 @@ use \App\Testimonial;
     }
 
     //bus gaunamas vienas id
-    public function getSingle($id){
+    public function getSingle($id)
+    {
       $title='Atsiliepimai';
       $testimonial = Testimonial::find($id);
+      
       //tarp kabučių blade php failo pavadinimas
       return view('single-testimonial', [
         'testimonial' => $testimonial,

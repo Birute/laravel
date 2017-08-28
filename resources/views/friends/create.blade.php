@@ -2,6 +2,8 @@
 
 @section('content')
 
+<h2>Naujas draugas</h2>
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>

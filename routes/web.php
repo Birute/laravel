@@ -13,13 +13,15 @@
 
 //duomenų bazių migracijos database->migrations->create user...
 
-Route::get('/skills', 'Skills@getSkills');
+Auth::routes();
+
+Route::get('/skills', 'SkillsController@getSkills');
 //paleidžia visus metodus
 
 
-//Route::resource('/friends', 'FriendsController');
+Route::resource('/friends', 'FriendsController');
 
-//Route::get('/testimonials', 'TestimonialsController@getAll');
+Route::get('/testimonials', 'TestimonialsController@getAll')->middleware('auth');
 
 Route::get('/testimonials/{id}', 'TestimonialsController@getSingle')
   -> where(['id'=> '[0-9]+']);
@@ -37,7 +39,7 @@ Route::get('/user/{id?}', function ($userid = null) {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('homepage');
 //
 // Route::get('/about', function () {
 //     return view('about');
@@ -47,3 +49,5 @@ Route::get('/', function () {
 //     return view('contact-us');
 // });
 //
+
+Route::get('/home', 'HomeController@index')->name('home');

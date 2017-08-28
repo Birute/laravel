@@ -17,14 +17,13 @@
       }
       div{
         background-color: pink;
-        margin: 50px auto; /*išcentravimas*/
+        margin: 50px auto;
         text-align: center;
         width: 600px;
         text-align: left;
         padding:20px;
         border: 5px double red;
         border-radius: 20;
-
       }
     </style>
   </head>
@@ -32,10 +31,10 @@
     <div>
       <h1>{{ $title }}</h1>
       <ul>
-        @for ($i=0; $i < 5 ; $i++)
-          <li>{{ $skills[$i]['language'] }} &#160 {{ $skills[$i]['rating'] }} &#160 {{ $skills[$i]['comment'] }}</li>
-        @endfor
+        @foreach ($skills as $skill)
+          <li>{{ $skill->language }} &#160 {{ $skill->rating }} &#160 {{ $skill->comment }}</li>
+        @endforeach
       </ul>
-  </div>
+    </div>
   </body>
 </html>

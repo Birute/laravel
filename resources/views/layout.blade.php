@@ -95,9 +95,10 @@
 <!-- Su http absoliuti nuoroda -->
 <!-- Su /reliatyvi nuoroda -->
                 <div class="links">
-                    <a href="/">Homepage</a>
-                    <a href="/about">About us</a>
-                    <a href="/testimonials">Testimonials</a>
+                    <a href="{{ route('homepage') }}">Homepage</a>
+                    <a href="{{ url('/about') }}">About us</a>
+                    <a href="{{ url('/testimonials') }}">Testimonials</a>
+                    <a href="{{ route('friends.index') }}">Friends</a>
                 </div>
                 <div class="page-content">
                   <!-- Į šitą vietą bus paduodamas content, bus galima įdėti turinį iš welcome.blade-->
