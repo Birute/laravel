@@ -18,6 +18,8 @@ Auth::routes();
 Route::get('/skills', 'SkillsController@getSkills');
 //paleidžia visus metodus
 
+Route::get('/skills/{id}', 'SkillsController@getSingle')
+  -> where(['id'=> '[0-9]+']);
 
 Route::resource('/friends', 'FriendsController');
 
