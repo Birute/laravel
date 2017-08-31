@@ -17,4 +17,6 @@
 
 @endforeach
 
+  {{ $friends->links() }}
+
 @endsection('content')

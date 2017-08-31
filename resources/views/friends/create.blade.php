@@ -14,13 +14,11 @@
     </div>
 @endif
 
-  <form method="post" action="{{ route('friends.store') }}">
+  <form enctype="multipart/form-data" method="post" action="{{ route('friends.store') }}">
     {{ csrf_field() }}
-    Vardas:</br> <input type="text" name="name"></br>
-    Gimimo data:</br> <input type="text" name="birthday"></br>
-    Tel. Nr.:</br> <input type="text" name="phone"></br>
-    Photo:</br> <input type="text" name="photo"></br>
+
+    @include('friends.form')
+
     <input type="submit" value="Išsaugoti">
   </form>
-
 @endsection('content')

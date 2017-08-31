@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Friend;
+use App\Http\Requests\StoreFriendRequest;
+
+use Illuminate\Support\Facades\Storage;
 
 class FriendsController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('auth');//prieš panaudojant bent kurį metodą iš šios klasės, paleidžiam construct ir patikrinam ar yra useris
+    }
     /**
      * Display a listing of the resource Čia bus visi įrašai
      *
@@ -16,7 +23,8 @@ class FriendsController extends Controller
     {
         //1. gauti iš DB friends
         //2. grąžinti template sąraše
-        $data = Friend::get();
+        //paginate - puslapiavimas
+        $data = Friend::paginate(5);
         return view('friends.index', [
          'friends' => $data
         ]);
@@ -42,15 +50,17 @@ class FriendsController extends Controller
      */
 
      //iš formos gaunami duomenys
-    public function store(Request $request)
+    public function store(StoreFriendRequest $request)
     {
-      $this->validate($request, [
-        'name'=>'required|max:18',
-        'birthday'=>'required|date',
-        'phone'=>'required'
-      ]);
+      //$request->all(); - paima visus įrašus
+      //$request->input('name'); - paima name laukelį
+      //$request->file('photo'); - paima failą
 
-      Friend::create($request->all());
+      $path = Storage::putfile('public/friend_photos', $request->file('photo'));
+
+      $friend = Friend::create($request->all());
+      $friend->photo = $path;
+      $friend->save();
       return redirect()->route('friends.index');
     }
 
@@ -62,7 +72,8 @@ class FriendsController extends Controller
      */
     public function show($id)
     {
-        echo 'Čia bus draugo puslapis';
+        $friend = Friend::find($id);
+        return view('friends.show')->with('friend', $friend);
     }
 
     /**
@@ -84,13 +95,8 @@ class FriendsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreFriendRequest $request, $id)
     {
-      $this->validate($request, [
-        'name'=>'required|max:18',
-        'birthday'=>'required|date',
-        'phone'=>'required'
-      ]);
         //Friend::get();
         //Friend::find($id);
         //Friend::create($data);
